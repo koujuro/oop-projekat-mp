@@ -1,0 +1,54 @@
+package helper;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Log {
+
+    private static String putanja = "src/helper/aktivnosti.log";
+    private static FileWriter fileWriter;
+
+    public static void open() {
+        try{
+            fileWriter = new FileWriter(putanja, true);
+        } catch (IOException e) {  //TODO: NeispravnaDatotekaException
+            e.printStackTrace();
+        }
+    }
+
+    public static ArrayList<String> read() throws FileNotFoundException {
+        FileReader fileReader = new FileReader(putanja);
+        ArrayList<String> redovi = new ArrayList<String>();
+        Scanner zapisIzDatoteke = new Scanner(fileReader);
+        while (zapisIzDatoteke.hasNext())
+            redovi.add(zapisIzDatoteke.nextLine());
+        try {
+            fileReader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            fileReader = null;
+        }
+        zapisIzDatoteke.close();
+        return redovi;
+    }
+
+    public static void write(String tekst) {
+        try {
+            fileWriter.write(tekst + '\n');
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public static void close() {
+        try {
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
